@@ -2,9 +2,11 @@
 
 A no-network dashboard that ranks pre-token protocols by an implied value derived from the sealed snapshot. It separates protocols whose tokens already trade, covers the complete 40-protocol watchlist, and adds an early radar of 160 lower-floor candidates.
 
-[![make.fun](https://make.fun/badge/token-radar-01.svg)](https://make.fun/c/token-radar-01)
-[![rank](https://make.fun/badge/token-radar-01/egaaria/token-radar-entry/rank.svg)](https://make.fun/c/token-radar-01)
-[![reward](https://make.fun/badge/token-radar-01/egaaria/token-radar-entry/reward.svg)](https://make.fun/c/token-radar-01)
+[![make.fun](https://make.fun/badge/token-radar-01.svg)](https://make.fun/bounty/token-radar-01)
+
+Competition: https://make.fun/bounty/token-radar-01
+[![rank](https://make.fun/badge/token-radar-01/egaaria/token-radar-entry/rank.svg)](https://make.fun/bounty/token-radar-01)
+[![reward](https://make.fun/badge/token-radar-01/egaaria/token-radar-entry/reward.svg)](https://make.fun/bounty/token-radar-01)
 
 ## Run
 
