@@ -21,6 +21,8 @@ Every row uses the same transparent model: TVL is the base, seven-day TVL change
 
 The snapshot is sealed by the competition. The dashboard reads only the generated local `data.js`; it never requests a network resource.
 
+Each row also carries a bounded 0–100 signal score (momentum + chain breadth + date completeness), a cohort (`watchlist` or `early-radar`), three evidence strings, and explicit missing-field caveats. The signal is a triage aid, not a second price model: the ranked order remains the transparent implied-value calculation above. Detail views expose those evidence and caveat fields so a high rank cannot hide weak source coverage.
+
 ## Safety note
 
 Farm plans are research checklists, not financial advice. Verify a protocol's official documentation, never sign an unknown transaction, and never pay to claim a reward.

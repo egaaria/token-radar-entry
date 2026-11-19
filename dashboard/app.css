@@ -91,6 +91,7 @@ tbody tr[data-selected="true"] { background: color-mix(in srgb, var(--accent) 8%
 .sub { color: var(--muted); font-size: 12px; }
 .pos { color: var(--accent); }
 .neg { color: var(--negative); }
+.signal { color: var(--accent); font-weight: 600; }
 .bar { width: 120px; height: 6px; border-radius: 3px; background: color-mix(in srgb, var(--border) 60%, var(--surface)); overflow: hidden; }
 .bar i { display: block; height: 100%; background: var(--accent); }
 .implied { display: flex; align-items: center; gap: var(--step-2); }
@@ -123,6 +124,9 @@ tbody tr[data-selected="true"] { background: color-mix(in srgb, var(--accent) 8%
 .equation { display: grid; gap: var(--step-2); font-family: var(--font-num); font-size: 13px; }
 .equation div { display: flex; justify-content: space-between; gap: var(--step-3); }
 .equation span { color: var(--muted); }
+.evidence { margin-top: var(--step-3); padding: var(--step-3); border: 1px solid var(--border); border-radius: var(--radius-control); background: var(--canvas); font-size: 13px; }
+.evidence ul { margin: var(--step-2) 0; padding-left: var(--step-4); color: var(--muted); }
+.risk-note { color: var(--negative); font-size: 12px; }
 .steps { margin: 0; padding-left: var(--step-5); display: grid; gap: var(--step-3); }
 .steps li { padding-left: var(--step-1); }
 .steps b { display: block; font-weight: 500; }

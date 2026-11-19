@@ -97,6 +97,10 @@ export interface BoardRow {
   token_status: 'pre-token';
   age_days: number | null;
   implied_value_usd: number;
+  cohort: 'watchlist' | 'early-radar';
+  signal_score: number;
+  risk_flags: string[];
+  evidence: string[];
   model: {
     base_multiple: number;
     growth_pct: number;
@@ -121,6 +125,10 @@ export interface RadarRow {
   listed_at: string | null;
   age_days: number | null;
   implied_value_usd: number;
+  cohort: 'watchlist' | 'early-radar';
+  signal_score: number;
+  risk_flags: string[];
+  evidence: string[];
   growth_multiplier: number;
   chain_multiplier: number;
   maturity_multiplier: number;
@@ -236,7 +244,18 @@ export function buildBoard(snapshot: Snapshot, model: ModelConstants = MODEL): B
 
   const scored = [...chosen.values()].map((p) => {
     const { implied, growthPct, growthMult, maturityMult, chainMult, age } = impliedValue(p, snapshot.as_of, model);
-    return { p, implied, growthPct, growthMult, maturityMult, chainMult, age };
+    const risk_flags: string[] = [];
+    if (p.change_7d === null) risk_flags.push('7d change unavailable');
+    if (age === null) risk_flags.push('listing date unavailable');
+    if (p.chains.length === 0) risk_flags.push('chain metadata unavailable');
+    if (p.tvl_usd < snapshot.floor_usd) risk_flags.push('below watchlist TVL floor');
+    const evidence = [
+      `TVL ${Math.round(p.tvl_usd).toLocaleString('en-US')} USD`,
+      `${p.chains.length} chain${p.chains.length === 1 ? '' : 's'} in snapshot`,
+      p.change_7d === null ? '7d momentum not reported' : `7d momentum ${growthPct >= 0 ? '+' : ''}${growthPct.toFixed(1)}%`,
+    ];
+    const signalScore = Math.max(0, Math.min(100, Math.round(50 + growthPct / 2 + Math.min(p.chains.length, 5) * 4 + (age === null ? -5 : 5))));
+    return { p, implied, growthPct, growthMult, maturityMult, chainMult, age, watchlist: snapshot.watchlist.includes(p.slug), risk_flags, evidence, signalScore };
   });
   scored.sort((a, b) => b.implied - a.implied || (a.p.slug < b.p.slug ? -1 : a.p.slug > b.p.slug ? 1 : 0));
   return scored.map((s, i) => ({
@@ -254,6 +273,10 @@ export function buildBoard(snapshot: Snapshot, model: ModelConstants = MODEL): B
     token_status: 'pre-token',
     age_days: s.age,
     implied_value_usd: s.implied,
+    cohort: s.watchlist ? 'watchlist' : 'early-radar',
+    signal_score: s.signalScore,
+    risk_flags: s.risk_flags,
+    evidence: s.evidence,
     model: {
       base_multiple: model.base_multiple,
       growth_pct: s.growthPct,
@@ -388,6 +411,10 @@ export function radarRow(row: BoardRow): RadarRow {
     listed_at: row.listed_at,
     age_days: row.age_days,
     implied_value_usd: row.implied_value_usd,
+    cohort: row.cohort,
+    signal_score: row.signal_score,
+    risk_flags: row.risk_flags,
+    evidence: row.evidence,
     growth_multiplier: row.model.growth_multiplier,
     chain_multiplier: row.model.chain_multiplier,
     maturity_multiplier: row.model.maturity_multiplier,
